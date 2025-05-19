@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Centro Hípico Ibiúna</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+      background-color: #fff;
+      color: #111;
+    }
+    header {
+      background-color: #fff;
+      color: #111;
+      padding: 1rem;
+      text-align: center;
+    }
+    nav {
+      background-color: #f5f5f5;
+      padding: 0.5rem;
+      text-align: center;
+    }
+    nav a {
+      color: #111;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.2s, background 0.2s;
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
+    }
+    nav a:hover {
+      background: #e0e0e0;
+      color: #111;
+      text-decoration: none;
+    }
+    section {
+      padding: 2rem 1rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    h2 {
+      color: #111;
+      border-bottom: 2px solid #111;
+      padding-bottom: 0.5rem;
+    }
+    /* Agenda */
+    .agenda {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .dia {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 1rem;
+      width: 200px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.07);
+    }
+    .dia h3 {
+      margin-top: 0;
+      color: #111;
+    }
+    .horario {
+      margin: 0.5rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .btn-agendar {
+      background-color: #111;
+      color: #fff;
+      border: none;
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-agendar:hover {
+      background-color: #fff;
+      color: #111;
+      border: 1px solid #111;
+    }
+    /* Restaurante */
+    .restaurante-conteudo {
+      text-align: center;
+    }
+    .restaurante-conteudo img {
+      max-width: 400px;
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-top: 1rem;
+    }
+    /* Galeria */
+    .galeria {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 0.5rem;
+    }
+    .galeria img {
+      width: 100%;
+      border-radius: 6px;
+      object-fit: cover;
+      height: 120px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .galeria img:hover {
+      transform: scale(1.05);
+    }
+    /* Localização */
+    iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+      border-radius: 8px;
+    }
+    /* Contato */
+    #contato p {
+      margin: 0.3rem 0;
+    }
+    footer {
+      background-color: #f5f5f5;
+      color: #111;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+    /* WhatsApp Button */
+    .whatsapp-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #111;
+      color: #fff;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      text-align: center;
+      font-size: 30px;
+      line-height: 60px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      text-decoration: none;
+      z-index: 1000;
+      transition: background 0.2s, color 0.2s;
+    }
+    .whatsapp-button:hover {
+      background-color: #fff;
+      color: #111;
+      border: 1px solid #111;
+    }
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-conteudo {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 8px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      position: relative;
+      color: #111;
+    }
+    .modal-conteudo h2 {
+      margin-top: 0;
+      color: #111;
+    }
+    .modal-conteudo label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    .modal-conteudo input {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      border: 1px solid #222;
+      border-radius: 4px;
+      font-size: 1rem;
+      background: #fff;
+      color: #111;
+    }
+    .modal-conteudo button {
+      margin-top: 1.5rem;
+      background-color: #111;
+      color: #fff;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s, color 0.2s;
+    }
+    .modal-conteudo button:hover {
+      background-color: #fff;
+      color: #111;
+      border: 1px solid #111;
+    }
+    .fechar {
+      position: absolute;
+      top: 10px; right: 15px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #777;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .fechar:hover {
+      color: #111;
+    }
+    @media (max-width: 600px) {
+      section {
+        padding: 1rem 0.5rem;
+      }
+      .dia {
+        width: 100%;
+      }
+      .galeria img {
+        margin-bottom: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Centro Hípico Ibiúna</h1>
+</header>
+
+<nav>
+  <a href="#agenda">Agenda de Aulas</a>
+  <a href="#restaurante">Restaurante</a>
+  <a href="#galeria">Galeria</a>
+  <a href="#localizacao">Localização</a>
+  <a href="#contato">Contato</a>
+</nav>
+
+<section id="agenda">
+  <h2>Agenda de Aulas</h2>
+  <div class="agenda">
+    <div class="dia">
+      <h3>Segunda-feira</h3>
+      <div class="horario">
+        <span>08:00 - 09:00</span>
+        <button class="btn-agendar" data-dia="Segunda-feira" data-horario="08:00 - 09:00" aria-label="Agendar aula Segunda-feira 08:00 - 09:00">Agendar</button>
+      </div>
+      <div class="horario">
+        <span>10:00 - 11:00</span>
+        <button class="btn-agendar" data-dia="Segunda-feira" data-horario="10:00 - 11:00" aria-label="Agendar aula Segunda-feira 10:00 - 11:00">Agendar</button>
+      </div>
+    </div>
+    <div class="dia">
+      <h3>Quarta-feira</h3>
+      <div class="horario">
+        <span>14:00 - 15:00</span>
+        <button class="btn-agendar" data-dia="Quarta-feira" data-horario="14:00 - 15:00" aria-label="Agendar aula Quarta-feira 14:00 - 15:00">Agendar</button>
+      </div>
+      <div class="horario">
+        <span>16:00 - 17:00</span>
+        <button class="btn-agendar" data-dia="Quarta-feira" data-horario="16:00 - 17:00" aria-label="Agendar aula Quarta-feira 16:00 - 17:00">Agendar</button>
+      </div>
+    </div>
+    <div class="dia">
+      <h3>Sábado</h3>
+      <div class="horario">
+        <span>09:00 - 10:00</span>
+        <button class="btn-agendar" data-dia="Sábado" data-horario="09:00 - 10:00" aria-label="Agendar aula Sábado 09:00 - 10:00">Agendar</button>
+      </div>
+      <div class="horario">
+        <span>11:00 - 12:00</span>
+        <button class="btn-agendar" data-dia="Sábado" data-horario="11:00 - 12:00" aria-label="Agendar aula Sábado 11:00 - 12:00">Agendar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="restaurante">
+  <h2>Restaurante</h2>
+  <div class="restaurante-conteudo">
+    <p>
+      Aproveite nosso restaurante com cardápio variado, ambiente familiar e vista privilegiada para os campos. Uma parada perfeita após um dia de aula ou passeio.
+    </p>
+    <img src="/FOT_8264.jpg" alt="Restaurante Centro Hípico" />
+  </div>
+</section>
+
+<section id="galeria">
+  <h2>Galeria</h2>
+  <div class="galeria">
+    <img src="/2624@racingbrasil_cesarcruz_02095.jpg" alt="Galeria de fotos 1" />
+    <img src="/3407@racingbrasil_cesarcruz_02211.jpg" alt="Galeria de fotos 2" />
+    <img src="/IMG_2260.JPG" alt="Galeria de fotos 3" />
+    <img src="/IMG_2213.JPEG" alt="Galeria de fotos 4" />
+    <img src="/2635@racingbrasil_cesarcruz_02102.jpg" alt="Galeria de fotos 5" />
+  </div>
+</section>
+
+<section id="localizacao">
+  <h2>Localização</h2>
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3656.50888309894!2d-47.23530868445635!3d-23.55356948466179!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce2cbbb3bc8f43%3A0x4f74a305b42373e4!2sCentro%20H%C3%ADpico%20Ibi%C3%BAna!5e0!3m2!1spt-BR!2sbr!4v1684495889114!5m2!1spt-BR!2sbr"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+  ></iframe>
+</section>
+
+<section id="contato">
+  <h2>Contato</h2>
+  <p>Telefone: (15) 99853-8700</p>
+  <p>Email: Centrohipicoibiuna@gmail.com</p>
+</section>
+
+<footer>
+  <p>© 2025 Centro Hípico Ibiúna - Todos os direitos reservados</p>
+</footer>
+
+<a href="https://wa.me/15998538700" target="_blank" class="whatsapp-button" aria-label="WhatsApp">
+  &#x2709;
+</a>
+
+<!-- Modal de agendamento -->
+<div id="modalAgendamento" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modalTitulo" aria-modal="true">
+  <div class="modal-conteudo">
+    <span class="fechar" id="fecharModal" aria-label="Fechar modal">&times;</span>
+    <h2 id="modalTitulo">Agendar Aula</h2>
+    <form id="formAgendamento">
+      <label for="nome">Nome Completo:</label>
+      <input type="text" id="nome" name="nome" required autocomplete="name" />
+      
+      <label for="telefone">Telefone (WhatsApp):</label>
+      <input type="tel" id="telefone" name="telefone" required placeholder="(xx) xxxxx-xxxx" pattern="\(?\d{2}\)?\s?\d{4,5}-?\d{4}" autocomplete="tel" />
+      
+      <label for="dia">Dia da Aula:</label>
+      <input type="text" id="dia" name="dia" readonly />
+      
+      <label for="horario">Horário da Aula:</label>
+      <input type="text" id="horario" name="horario" readonly />
+      
+      <button type="submit">Confirmar Agendamento</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById('modalAgendamento');
+  const fecharModalBtn = document.getElementById('fecharModal');
+  const form = document.getElementById('formAgendamento');
+  const diaInput = document.getElementById('dia');
+  const horarioInput = document.getElementById('horario');
+
+  // Abrir modal ao clicar no botão Agendar
+  document.querySelectorAll('.btn-agendar').forEach(button => {
+    button.addEventListener('click', () => {
+      const dia = button.getAttribute('data-dia');
+      const horario = button.getAttribute('data-horario');
+      diaInput.value = dia;
+      horarioInput.value = horario;
+      modal.style.display = 'flex';
+      modal.setAttribute('aria-hidden', 'false');
+      document.getElementById('nome').focus();
+    });
+  });
+
+  // Fechar modal ao clicar no X
+  fecharModalBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    form.reset();
+  });
+
+  // Fechar modal clicando fora do conteúdo
+  window.addEventListener('click', (event) => {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+      modal.setAttribute('aria-hidden', 'true');
+      form.reset();
+    }
+  });
+
+  // Função para converter dia e horário em data/hora no formato Google Calendar
+  function getGoogleCalendarDate(dia, horario) {
+    const diasSemana = {
+      "Domingo": 0,
+      "Segunda-feira": 1,
+      "Terça-feira": 2,
+      "Quarta-feira": 3,
+      "Quinta-feira": 4,
+      "Sexta-feira": 5,
+      "Sábado": 6
+    };
+    const hoje = new Date();
+    let diaSemana = diasSemana[dia];
+    if (diaSemana === undefined) diaSemana = 1; // fallback segunda
+
+    // Descobrir a próxima data do dia da semana escolhido
+    let dataBase = new Date(hoje);
+    dataBase.setHours(0,0,0,0);
+    let diff = (diaSemana - hoje.getDay() + 7) % 7;
+    if (diff === 0 && hoje > dataBase) diff = 7; // se já passou hoje, pega a próxima semana
+    dataBase.setDate(hoje.getDate() + diff);
+
+    // Pega horário inicial e final
+    const [horaInicio, horaFim] = horario.split(' - ');
+    const [hIni, mIni] = horaInicio.split(':');
+    const [hFim, mFim] = horaFim.split(':');
+
+    // Data/hora início
+    const inicio = new Date(dataBase);
+    inicio.setHours(parseInt(hIni), parseInt(mIni), 0, 0);
+
+    // Data/hora fim
+    const fim = new Date(dataBase);
+    fim.setHours(parseInt(hFim), parseInt(mFim), 0, 0);
+
+    // Formato Google: YYYYMMDDTHHMMSS
+    function formatGoogle(dt) {
+      return dt.getFullYear().toString() +
+        String(dt.getMonth()+1).padStart(2,'0') +
+        String(dt.getDate()).padStart(2,'0') + 'T' +
+        String(dt.getHours()).padStart(2,'0') +
+        String(dt.getMinutes()).padStart(2,'0') +
+        '00';
+    }
+    return {
+      inicio: formatGoogle(inicio),
+      fim: formatGoogle(fim)
+    };
+  }
+
+  // Enviar mensagem pelo WhatsApp E adicionar no Google Agenda ao confirmar agendamento
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const nome = form.nome.value.trim();
+    const telefone = form.telefone.value.trim();
+    const dia = form.dia.value;
+    const horario = form.horario.value;
+
+    // Número do WhatsApp do Centro Hípico
+    const numeroWhatsApp = "15998538700";
+
+    // Mensagem formatada para o WhatsApp
+    const mensagem = encodeURIComponent(
+      `Olá, meu nome é ${nome}.\nGostaria de agendar uma aula para ${dia} às ${horario}.\nMeu telefone para contato: ${telefone}.`
+    );
+
+    // Abrir WhatsApp web/mobile com a mensagem
+    window.open(`https://wa.me/${numeroWhatsApp}?text=${mensagem}`, '_blank');
+
+    // Gerar link do Google Agenda
+    const datas = getGoogleCalendarDate(dia, horario);
+    const titulo = encodeURIComponent("Aula no Centro Hípico Ibiúna");
+    const detalhes = encodeURIComponent(`Aula agendada por ${nome}.\nTelefone: ${telefone}`);
+    const urlGoogleAgenda = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${titulo}&details=${detalhes}&dates=${datas.inicio}/${datas.fim}`;
+
+    // Abrir Google Agenda em nova aba
+    window.open(urlGoogleAgenda, '_blank');
+
+    // Fechar modal e resetar formulário
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    form.reset();
+  });
+</script>
+
+</body>
+</html>
